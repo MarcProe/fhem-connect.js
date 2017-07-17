@@ -14,6 +14,7 @@ It works like this:
 [overview]: overview.png "Overview image"
 
 ## Step-By-Step
+**_This manual is for a linux environment._**
 ### Register on Heroku
 Heroku is a cloud platform as a service (PaaS) supporting several programming languages that is used as a web application deployment model.
 
@@ -41,27 +42,28 @@ You need a github account to get fhem.connect.js to run on heroku. ([There are o
 * Click on "Deploy", then "Github", then "Connect to Github"
 * Authorize heroku on github
 * Click on "search", then "connect" next to the fhem-connect.js project
-* On the bottom of the page, choose a release branch, and the "Deploy Branch"
+* On the bottom of the page, choose a release branch (or master), and then "Deploy Branch"
 * On the top of the page, click "more", then "View logs" to see whats happening
 
 ### Start fhem.js
 * Install node.js on your fhem server or a dedicated server in the same network
 * Install git
-* Checkout my fhem.js fork (https://github.com/MarcProe/fhem.js)
+* Checkout my fhem.js fork (https://github.com/MarcProe/fhem.js/tree/websocket-client)
   * `git clone https://github.com/MarcProe/fhem.js.git` 
   * `cd fhem.js`
   * `git checkout websocket-client`
-* Copy the default config from etc/fhem.js/params.js.dist to the root directory of the application (where server.js is)
-* Rename it to params.js
+* Copy the default config from `etc/fhem.js/params.js.dist` to the root directory of the application (where server.js is)
+* Rename it to `params.js`
 * Open it and change the values
   * Enter your fhem ip and telnet port
   * For the websocket settings (at the end of the file)
     * Activate the websocket client (`active : true`)
-    * Enter your websocket url `wss://your-app-name.herokuapp.com`)
+    * Enter your websocket url `url : "wss://your-app-name.herokuapp.com"`)
     * Enter your auth key (the key you put in the config variable on heroku (`auth:  "s3cr3t"`))
     * The key you want external services to use to access your service (`key : "something"`)
     * Some regular expressions to restrict access to your fhem (`cregex`, `dregex` and `eregex`)
     * The maximum requests you'll allow per minute (`reqpermin : 180`)
+      * this is enforced per request, so if you put 180 in it, it will allow for one request per 333 milliseconds
 * Start the server: `node server.js`
     
 ### Configure a service
